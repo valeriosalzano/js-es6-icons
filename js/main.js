@@ -10,10 +10,10 @@ data.forEach( element => {
 });
 
 // stampo la lista delle options nel select
-optionArray.forEach( element => {
+optionArray.forEach( category => {
     const newOption = document.createElement('option');
-    newOption.value = element;
-    newOption.innerHTML = element;
+    newOption.value = category;
+    newOption.innerHTML = category;
     selectInput.append(newOption);
 } )
 
@@ -21,7 +21,7 @@ const iconsContainerDom = document.getElementById('icons-container');
 // genero dinamicamente tutte le box per ogni elemento di "data"
 data.forEach(icon => {
     const newBox = document.createElement('div');
-    
+
     // aggiungo le classi funzionali...
     newBox.classList.add('box',`${icon.type}`);
     //...e quelle di stile
@@ -37,3 +37,22 @@ data.forEach(icon => {
 
     iconsContainerDom.append(newBox);
 })
+
+selectInput.addEventListener('change',filterOnChange);
+
+// funzione che al cambiare del filtro nasconde gli elementi che non appartengono alla categoria selezionata
+function filterOnChange (){
+    // creo un array con tutti i box e li ciclo
+    const boxNodes = document.getElementsByClassName('box');
+    for (let i=0; i<boxNodes.length; i++){
+        if (!boxNodes[i].classList.contains(selectInput.value) && selectInput.value!='all'){
+            // CASO 1: il box non contiene il value del filtro e non ho selezionato "all"
+            boxNodes[i].classList.add('d-none');
+        } else {
+            // CASO 2: filtro all oppure il box contiene il filtro selezionato
+            boxNodes[i].classList.remove('d-none')
+        }
+    };
+
+
+}
